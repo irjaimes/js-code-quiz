@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --darkPurple: #7344ff;
+  --medPurple: #b098f7;
+  --transPurple : #e8e3f7e2;
+  --ash: rgb(70, 70, 70);
+  font-size: 63%;
+}
+
+body {
+  background: var(--transPurple);
+  color: rgb(33, 33, 33);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: Avenir, Corbel, Helvetica, sans-serif;
+}
+
+header {
+  background: var(--secondary);
+  padding: 30px 25px;
+  border-bottom: 2px solid var(--ash);
+}
+
+header p {
+  color: var(--tertiary);
+  margin: 5px 0 20px;
+  font-size: 2rem;
+}
+
+main {
+    
+}
+
+footer {
+    padding: 25px;
+    border-bottom: 2px solid var(--ash);
+}
+
+@media screen and (max-width: 980px) {
+main {
+   flex: 1 100%;
+ }
+
+ .btn {
+   width: 100%;
+ }
+
+}
