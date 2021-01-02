@@ -1,30 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Javascript Quiz</title>
 </head>
+
 <body>
-    <header>
-        <div>
-            <p>Check High Scores</p>
-            <div class="timer"></div> 
-    </header>
+    <div id="container">
 
-    <main>
-        <div class="question"></div>
-        <div class="answers">
-            <!--<ol class="answer-list">
-                <li class="answer-option"></li>
-            </ol> -->
+    <!-- START CONTAINER -->      
+    <div id="container">
+        <div id="start">Start Quiz!</div>
+
+        <!-- QUIZ CONTAINER -->
+        <div id="quiz" style="display: none"> <!-- hide quiz until start start clickevent -->
+
+            <div id="timer">
+                <div id="counter"></div>
+            </div>
+            
+
+            <div id="question"></div>
+            <div id="choices">
+                <div class="choice" id="A" onclick="checkAnswer('A')"></div>
+                <div class="choice" id="B" onclick="checkAnswer('B')"></div>
+                <div class="choice" id="C" onclick="checkAnswer('C')"></div>
+                <div class="choice" id="D" onclick="checkAnswer('D')"></div>
+            </div>
+            
+            <div id="progress"></div>
+            
         </div>
-        
-    </main>
 
-    <script type="text/Javascript" src="js/codeQuiz.js"></script>
+        <!-- SCORE CONTAINER -->
+        <div id="scoreContainer" style="display: none"></div> <!-- hide score until time is up -->
+    </div>
 
+    <script type="text/Javascript" src="assets/js/quiz.js"></script>
     <footer></footer>
 </body>
 
