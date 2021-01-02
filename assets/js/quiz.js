@@ -60,6 +60,7 @@ var lastArrQuestion = questions.length - 1;
 var currentArrQuestion = 0;
 var score = 0;
 var count = 0;
+var fiveMinutes = 0;
 
 // Render Current Question & Answer Choices
 var renderQuestion = function () {
@@ -95,7 +96,7 @@ function startTimer(duration, display) {
 function countdown() {
     var fiveMinutes = 60 * 5,
     display = document.querySelector('#time');
-    startTimer(fiveMinutes, display); 
+    startTimer(fiveMinutes, display);
 };
 startEl.addEventListener("click", countdown);
 
@@ -105,4 +106,6 @@ function startQuiz() {
     renderQuestion();
     quiz.style.display = "block";
 }
+
+
 
