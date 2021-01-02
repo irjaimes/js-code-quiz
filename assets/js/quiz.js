@@ -85,6 +85,28 @@ function startQuiz() {
     TIMER = setInterval(displayCounter, 60000); // 1000ms = 1s
 }
 
+//timer start
+startEl.addEventListener('click', function () {
+    count = Math.min(60000, count - 1)
+    currentCount()
+    if (count > 0) {
+        count--
+        currentCount()
+    }
+        
+    answerIsWrong();
+    //if not on last question, continue to next question
+    if (currentArrQuestion < lastArrQuestion) {
+        currentArrQuestion++;
+        
+    }
+    // end the quiz and show the score
+    else {
+        scoreRender();
+    }
+
+})
+
 // counter render
 function renderCounter() {
     answerIsWrong();
@@ -93,7 +115,7 @@ function renderCounter() {
         currentArrQuestion++;
         renderQuestion();
     } else {
-        // end the quiz and show the score
+       
         clearInterval(TIMER);
         scoreRender();
     }
