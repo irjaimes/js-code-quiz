@@ -63,8 +63,8 @@ var TIMER;
 var score = 0;
 
 // Display Current Question & Answer Choices
-function renderQuestion() {
-    var q = questions[currentArrQuestion]; //set variable to accesss the current question in array
+function displayQuestion() {
+    var q = questions[currentArrQuestion]; 
 
     questionEl.innerHTML = "<p>" + q.question + "</p>";
 
@@ -75,3 +75,26 @@ function renderQuestion() {
 }
 
 startEl.addEventListener("click", startQuiz);
+
+// start quiz
+function startQuiz() {
+    startEl.style.display = "none"; //hide start button
+    displayQuestion();
+    quiz.style.display = "block";
+    displayCounter();
+    TIMER = setInterval(displayCounter, 60000); // 1000ms = 1s
+}
+
+// counter render
+function renderCounter() {
+    answerIsWrong();
+    //if not on last question, continue to next question
+    if (currentArrQuestion < lastArrQuestion) {
+        currentArrQuestion++;
+        renderQuestion();
+    } else {
+        // end the quiz and show the score
+        clearInterval(TIMER);
+        scoreRender();
+    }
+}
