@@ -1,12 +1,12 @@
 //DOM element variables
 let startEl = document.getElementById("start");
 let quiz = document.getElementById("quiz");
-let questionEl = document.getElementById("question");
+let questEl = document.getElementById("question");
 let choiceAel = document.getElementById("A");
 let choiceBel = document.getElementById("B");
 let choiceCel = document.getElementById("C");
 let choiceDel = document.getElementById("D")
-let counterEl = document.getElementById("counter");;
+let timerEl = document.getElementById("timer");;
 let rightWrongEl = document.getElementById("right-wrong");
 let scoreEl = document.getElementById("scoreContainer");
 
@@ -58,65 +58,51 @@ var questions = [
 // global variables
 var lastArrQuestion = questions.length - 1;
 var currentArrQuestion = 0;
-var count = 60000*5;
-var TIMER;
 var score = 0;
+var count = 0;
 
-// Display Current Question & Answer Choices
-function displayQuestion() {
-    var q = questions[currentArrQuestion]; 
+// Render Current Question & Answer Choices
+var renderQuestion = function () {
+    var q = questions[currentArrQuestion];
 
-    questionEl.innerHTML = "<p>" + q.question + "</p>";
-
+    questEl.innerHTML = "<p>" + q.question + "</p>";
     choiceAel.innerHTML = q.choiceA;
     choiceBel.innerHTML = q.choiceB;
     choiceCel.innerHTML = q.choiceC;
     choiceDel.innerHTML = q.choiceD;
 }
-
 startEl.addEventListener("click", startQuiz);
 
-// start quiz
+// Timer function to set counter to 00:00 format
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+// Countdown function at click event
+function countdown() {
+    var fiveMinutes = 60 * 5,
+    display = document.querySelector('#time');
+    startTimer(fiveMinutes, display); 
+};
+startEl.addEventListener("click", countdown);
+
+// Quiz Start
 function startQuiz() {
     startEl.style.display = "none"; //hide start button
-    displayQuestion();
+    renderQuestion();
     quiz.style.display = "block";
-    displayCounter();
-    TIMER = setInterval(displayCounter, 60000); // 1000ms = 1s
 }
 
-//timer start
-startEl.addEventListener('click', function () {
-    count = Math.min(60000, count - 1)
-    currentCount()
-    if (count > 0) {
-        count--
-        currentCount()
-    }
-        
-    answerIsWrong();
-    //if not on last question, continue to next question
-    if (currentArrQuestion < lastArrQuestion) {
-        currentArrQuestion++;
-        
-    }
-    // end the quiz and show the score
-    else {
-        scoreRender();
-    }
-
-})
-
-// counter render
-function renderCounter() {
-    answerIsWrong();
-    //if not on last question, continue to next question
-    if (currentArrQuestion < lastArrQuestion) {
-        currentArrQuestion++;
-        renderQuestion();
-    } else {
-       
-        clearInterval(TIMER);
-        scoreRender();
-    }
-}
