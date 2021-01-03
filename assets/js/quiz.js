@@ -19,7 +19,7 @@ var questions = [
         choiceB: "B. CSS",
         choiceC: "C. Neither A or B",
         choiceD: "D. Both A & B",
-        correct: "D. Both A & B" //exact text here
+        correct: "D" //exact text here
     },
     {
         question: "Which of the following are variable keywords in Javascript?",
@@ -27,7 +27,7 @@ var questions = [
         choiceB: "B. num, noms",
         choiceC: "C. for, per",
         choiceD: "D. one, two, three",
-        correct: "A. var, let, const"
+        correct: "A"
     },
     {
         question: "Arrays need to be enclosed in which of the following?",
@@ -35,7 +35,7 @@ var questions = [
         choiceB: "B. square brackets []",
         choiceC: "C. parentheses ()",
         choiceD: "D. asterisks **",
-        correct: "B. square brackets []"
+        correct: "B"
     },
     {
         question: "What can Javascript Do?",
@@ -43,7 +43,7 @@ var questions = [
         choiceB: "B. Javascript can hide and show HTML Elements",
         choiceC: "C. Both A & B",
         choiceD: "D. Neither A or B",
-        correct: "C. Both A & B"
+        correct: "C"
     },
     {
         question: "What does DOM stand for?",
@@ -51,16 +51,16 @@ var questions = [
         choiceB: "B. Document Object Module",
         choiceC: "C. Dominant Obsticle Model",
         choiceD: "D. Dominant Obsticle Module",
-        correct: "A. Document Object Model"
+        correct: "A"
     },
 ]
 
 // global variables
 var lastArrQuestion = questions.length - 1;
 var currentArrQuestion = 0;
-var count = 60000*5;
-var TIMER;
 var score = 0;
+var fiveMinutes = 2 * 1; //*****CHANGE!!! 1 to 5 for 5 minutes  & 30 to 60
+var Timer;
 
 // Display Current Question & Answer Choices
 function renderQuestion() {
@@ -75,3 +75,65 @@ function renderQuestion() {
 }
 
 startEl.addEventListener("click", startQuiz);
+
+//  Set Timer function to set counter to 00:00 format
+function setTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+var start;
+// Start Countdown function at click event
+function startCountDown() {
+    start = setTimeout(function (){
+        display = document.querySelector('#time'),
+        setTimer(fiveMinutes, display);
+    })
+};
+startEl.addEventListener("click", startCountDown);
+
+//Stop Timer
+function stopCountDown() {
+    clearTimeout(start);
+    showScore;
+}
+
+// Quiz Start
+function startQuiz() {
+    startEl.style.display = "none"; //hide start button
+    renderQuestion();
+    quiz.style.display = "block";
+}
+
+//If Answer is Correct or Incorrect
+function checkAnswer(answer) {
+    if (answer === questions[currentArrQuestion].correct) {
+        alert("Correct!");
+        // increase score
+        score++;
+    } else {
+        alert("Incorrect!");
+        // decrease time by 30 seconds
+        //fiveMinutes -= 30;
+    }
+    // check questions left and time
+    if (currentArrQuestion < lastArrQuestion) {
+        currentArrQuestion++;
+        renderQuestion();
+    } else {
+        // end the quiz and show the score
+        clearInterval(timer);
+        showScore();
+    }
+}
+

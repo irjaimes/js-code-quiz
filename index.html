@@ -9,19 +9,24 @@
 </head>
 
 <body>
+    <header>
+        <div class="high-scores">View High Scores</div>
+
+        <div id="timer">
+            <span id="time">05:00</span>
+        </div>
+    </header>
+
     <div id="container">
 
-    <!-- START CONTAINER -->      
-    <div id="container">
-        <div id="start">Start Quiz!</div>
+        <!-- START -->
+        <div id="start">
+            <p>Start Quiz!</p>
+        </div>
 
-        <!-- QUIZ CONTAINER -->
-        <div id="quiz" style="display: none"> <!-- hide quiz until start start clickevent -->
-
-            <div id="timer">
-                <div id="counter"></div>
-            </div>
-            
+        <!-- QUIZ -->
+        <div id="quiz" style="display: none">
+            <!-- hide quiz until start start clickevent -->
 
             <div id="question"></div>
             <div id="choices">
@@ -30,12 +35,12 @@
                 <div class="choice" id="C" onclick="checkAnswer('C')"></div>
                 <div class="choice" id="D" onclick="checkAnswer('D')"></div>
             </div>
-            
-            <div id="progress"></div>
-            
+
+            <!--<div id="right-wrong">wrong!</div> -->
+
         </div>
 
-        <!-- SCORE CONTAINER -->
+        <!-- SCORE -->
         <div id="scoreContainer" style="display: none"></div> <!-- hide score until time is up -->
     </div>
 
