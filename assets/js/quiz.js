@@ -1,4 +1,5 @@
 //DOM element variables
+let introEl = document.getElementById("quick-intro");
 let startEl = document.getElementById("start");
 let quiz = document.getElementById("quiz");
 let questionEl = document.getElementById("question");
@@ -59,7 +60,7 @@ var questions = [
 var lastArrQuestion = questions.length - 1;
 var currentArrQuestion = 0;
 var score = 0;
-var fiveMinutes = 2 * 1; //*****CHANGE!!! 1 to 5 for 5 minutes  & 30 to 60
+var fiveMinutes = 1 * 1; //*****CHANGE!!! 1 to 5 for 5 minutes  & 30 to 60
 var Timer;
 
 // Display Current Question & Answer Choices
@@ -73,8 +74,10 @@ function renderQuestion() {
     choiceCel.innerHTML = q.choiceC;
     choiceDel.innerHTML = q.choiceD;
 }
-
 startEl.addEventListener("click", startQuiz);
+
+
+////////    TIMER    ///////
 
 //  Set Timer function to set counter to 00:00 format
 function setTimer(duration, display) {
@@ -92,8 +95,25 @@ function setTimer(duration, display) {
     }, 1000);
 }
 
-var start;
+//Stop Timer
+function stopCountDown() {
+    clearTimeout(start);
+    showScore;
+}
+
+
+////////    QUIZ SCREEEN    ///////
+
+// Quiz Start
+function startQuiz() {
+    startEl.style.display = "none"; //hide start button
+    introEl.style.display = "none";
+    renderQuestion();
+    quiz.style.display = "block";
+}
+
 // Start Countdown function at click event
+var start;
 function startCountDown() {
     start = setTimeout(function (){
         display = document.querySelector('#time'),
@@ -102,20 +122,7 @@ function startCountDown() {
 };
 startEl.addEventListener("click", startCountDown);
 
-//Stop Timer
-function stopCountDown() {
-    clearTimeout(start);
-    showScore;
-}
-
-// Quiz Start
-function startQuiz() {
-    startEl.style.display = "none"; //hide start button
-    renderQuestion();
-    quiz.style.display = "block";
-}
-
-//If Answer is Correct or Incorrect
+//Check if Answers Correct or Incorrect
 function checkAnswer(answer) {
     if (answer === questions[currentArrQuestion].correct) {
         alert("Correct!");
@@ -136,4 +143,62 @@ function checkAnswer(answer) {
         showScore();
     }
 }
+
+
+////////    SCORES SCREEEN    ///////
+
+//Create Score Container child elements
+var resultsHeader = document.createElement("h1");
+resultsHeader.setAttribute("id", "results-title");
+resultsHeader.innerText = "Your Results:";
+var yourScore = document.createElement("h3");
+yourScore.setAttribute("id", "your-score");
+resultsHeader.appendChild(yourScore);
+scoreEl.appendChild(resultsHeader);
+
+//Show score 
+function showScore() {
+    quiz.style.display = "none";
+    scoreEl.style.display = "block";
+    //calculate score
+    const scorePerCent = Math.round(100 * score / questions.length);
+    //display score percentage
+    yourScore.innerText = scorePerCent + "/100";
+}
+
+//CREATE Form and child elements 
+var form = document.createElement("form"); 
+form.setAttribute("id", "form");  
+// CREATE an <p> element for user instructions
+var userInstruct = document.createElement("p"); 
+userInstruct.innerText = ("Enter your initials: "); 
+userInstruct.setAttribute("id", "userInstruct"); 
+// CREATE an input element for user initials
+var initials = document.createElement("input"); 
+initials.setAttribute("type", "text"); 
+initials.setAttribute("name", "initials"); 
+initials.setAttribute("id", "userInitials")
+initials.setAttribute("placeholder", "Your Initials"); 
+// CREATE a SAVE button 
+var saveBtn = document.createElement("button"); 
+saveBtn.setAttribute("id", "saveScoreBtn")
+saveBtn.setAttribute("class", "btn")
+saveBtn.setAttribute("type", "submit"); 
+saveBtn.setAttribute("onsubmit", "saveHighScore(event)");
+saveBtn.setAttribute("value", "Save");
+saveBtn.textContent = "Save";  
+// CREATE a Retake button 
+var retakeBtn = document.createElement("button"); 
+retakeBtn.setAttribute("id", "saveScoreBtn")
+retakeBtn.setAttribute("class", "btn")
+retakeBtn.setAttribute("type", "submit"); 
+retakeBtn.setAttribute("onClick", "location.href='index.html'");
+retakeBtn.setAttribute("value", "Retake");
+retakeBtn.textContent = "Retake"; 
+// APPENDING child elements to parent elements 
+form.appendChild(userInstruct);   
+form.appendChild(initials);  
+form.appendChild(saveBtn); 
+form.appendChild(retakeBtn); 
+scoreEl.append(form);  
 
