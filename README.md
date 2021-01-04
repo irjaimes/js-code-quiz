@@ -1,6 +1,7 @@
 # js-code-quiz
 
 **OBJECTIVE**
+
 As a coding student, user can take a timed quiz on JavaScript fundamentals that stores high scores.
 
 **APP FEATURES**
