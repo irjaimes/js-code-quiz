@@ -27,6 +27,9 @@ header {
 #high-scores {
     color: var(--darkPurple);
 }
+ul {
+    list-style: none;
+}
 #high-scores:hover {
     color : rgb(242, 21, 246);
     font-size: 1.1em;  

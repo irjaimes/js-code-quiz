@@ -1,4 +1,5 @@
 //DOM element variables
+let highScoresEl = document.getElementById("high-scores");
 let introEl = document.getElementById("quick-intro");
 let startEl = document.getElementById("start");
 let quiz = document.getElementById("quiz");
@@ -7,7 +8,7 @@ let choiceAel = document.getElementById("A");
 let choiceBel = document.getElementById("B");
 let choiceCel = document.getElementById("C");
 let choiceDel = document.getElementById("D")
-let counterEl = document.getElementById("counter");;
+let counterEl = document.getElementById("counter");
 let rightWrongEl = document.getElementById("right-wrong");
 let scoreEl = document.getElementById("scoreContainer");
 
@@ -60,7 +61,7 @@ var questions = [
 var lastArrQuestion = questions.length - 1;
 var currentArrQuestion = 0;
 var score = 0;
-var fiveMinutes = 60 * 5; //*****CHANGE!!! to test
+var fiveMinutes = 60 * 5; 
 var Timer;
 
 
@@ -131,7 +132,7 @@ function checkAnswer(selectedAnswer) {
     if (selectedAnswer === questions[currentArrQuestion].correct) {
         // increase score
         score++;
-        //localStorage.setItem("recentScore", score); may delete after high scores func
+        localStorage.setItem("recentScore", score); 
     } else {
         clickedChoice = "wrong!";
         // ADD time decrease by 30 seconds below
@@ -150,7 +151,7 @@ function checkAnswer(selectedAnswer) {
         setTimeout(() => {
             //got to score screen
             showScore();
-            //ADD time stop function
+            //ADD time stop function 
         }, 1000);
     }
     else {
@@ -161,8 +162,8 @@ function checkAnswer(selectedAnswer) {
 }
 
 
-
 ////////    SCORES SCREEN    ///////
+
 
 //Create Score Container child elements
 var resultsHeader = document.createElement("h1");
@@ -174,76 +175,105 @@ resultsHeader.appendChild(yourScore);
 scoreEl.appendChild(resultsHeader);
 
 //Show score 
+
+
 function showScore() {
     quiz.style.display = "none";
     scoreEl.style.display = "block";
     //calculate score
-    const scorePerCent = Math.round(100 * score / questions.length);
+    var scorePerCent = Math.round(100 * score / questions.length);
     //display score percentage
     yourScore.innerText = scorePerCent + "/100";
 }
 
 //CREATE Form and child elements 
-var form = document.createElement("form");
-form.setAttribute("id", "form");
+var formEl = document.createElement("formEl");
+formEl.setAttribute("id", "formEl");
 // CREATE an <p> element for user instructions
-var userInstruct = document.createElement("p");
-userInstruct.innerText = ("Enter your initials: ");
-userInstruct.setAttribute("id", "userInstruct");
+var userInstructEl = document.createElement("p");
+userInstructEl.innerText = ("Enter your initialsEl: ");
+userInstructEl.setAttribute("id", "userInstructEl");
 // CREATE an input element for user initials
-var initials = document.createElement("input");
-initials.setAttribute("type", "text");
-initials.setAttribute("name", "initials");
-initials.setAttribute("id", "userInitials")
-initials.setAttribute("placeholder", "your initials");
+var initialsEl = document.createElement("input");
+initialsEl.setAttribute("type", "text");
+initialsEl.setAttribute("name", "initialsEl");
+initialsEl.setAttribute("id", "userInitials")
+initialsEl.setAttribute("placeholder", "your initialsEl");
 // CREATE a SAVE button 
-var saveBtn = document.createElement("button");
-saveBtn.setAttribute("id", "saveScoreBtn")
-saveBtn.setAttribute("class", "btn")
-saveBtn.setAttribute("type", "submit");
-saveBtn.setAttribute("onsubmit", "saveHighScore(event)");
-saveBtn.setAttribute("value", "Save");
-saveBtn.setAttribute("disabled", "true");
-saveBtn.textContent = "Save";
+var saveBtnEl = document.createElement("button");
+saveBtnEl.setAttribute("id", "saveScoreBtn")
+saveBtnEl.setAttribute("class", "btn")
+saveBtnEl.setAttribute("type", "submit");
+saveBtnEl.setAttribute("onclick", "saveHighScore(event)");
+saveBtnEl.setAttribute("value", "Save");
+saveBtnEl.setAttribute("disabled", "true");
+saveBtnEl.textContent = "Save";
 // CREATE a Retake button 
-var retakeBtn = document.createElement("button");
-retakeBtn.setAttribute("id", "saveScoreBtn")
-retakeBtn.setAttribute("class", "btn")
-retakeBtn.setAttribute("type", "submit");
-retakeBtn.setAttribute("onClick", "location.href='index.html'");
-retakeBtn.setAttribute("value", "Retake");
-retakeBtn.textContent = "Retake";
+var retakeBtnEl = document.createElement("button");
+retakeBtnEl.setAttribute("id", "retakeBtn")
+retakeBtnEl.setAttribute("class", "btn")
+retakeBtnEl.setAttribute("type", "submit");
+retakeBtnEl.setAttribute("onClick", "location.href='index.html'");
+retakeBtnEl.setAttribute("value", "Retake");
+retakeBtnEl.textContent = "Retake";
 // APPENDING child elements to parent elements 
-form.appendChild(userInstruct);
-form.appendChild(initials);
-form.appendChild(saveBtn);
-form.appendChild(retakeBtn);
-scoreEl.append(form);
+formEl.appendChild(userInstructEl);
+formEl.appendChild(initialsEl);
+formEl.appendChild(saveBtnEl);
+formEl.appendChild(retakeBtnEl);
+scoreEl.append(formEl);
 
+// Save Score Variables
+var saveScoreBtn = saveBtnEl;
+var userName = initialsEl;
+var finalScore = yourScore.innerText;////
+var recentScore = localStorage.getItem("recentScore");
+finalScore.innerText = recentScore;
 
-// Disabling save button if no input in field
-var userName = document.getElementById("userInitials");
-var saveScoreBnt = document.getElementById("saveScoreBtn");
-//var recentScore =  localStorage.getItem("recentScore");
-//var viewScores = document.getElementById("view-scores");
-//viewScores.innerText =  recentScore;
+//need to conver string to interger and do math to ger score
+function finalScoreConvert() {
+
+}
+
+//function to Disable Save Button until field is filled
 userName.addEventListener("keyup", () => {
-    saveScoreBnt.disabled = !userName.value
+    saveScoreBtn.disabled = !userName.value
 });
 
-//Save score
-saveScore = e => { //saveHighScore(event)
-    e.preventDefaul();
+//Save high scores onclick: saveHighScore(event)
+saveHighScore = e => {
+    console.log("clicked save button")
+    e.preventDefautl();
 
-    var user = document.getElementsByName("initials").value;
+    var savedResults = {
+        user: initialsEl.value,
+        score: userScore 
+    };
 
-    //save to local storage
-    localStorage.setItem(user);
+console.log(savedResults);
 
+};
+
+
+
+//Retrive Scores List DOM variables
+highScoresEl.setAttribute("onClick", "retriveScores(event)");
+var scoreListEl = document.createElement("ul");
+scoreListEl.setAttribute("id", "score-list");
+var listItemEl = document.createElement("li");
+listItemEl.setAttribute("id", "list-item");
+scoreListEl.appendChild(listItemEl);
+highScoresEl.appendChild(scoreListEl);
+
+
+retriveScores = e =>{
+    startEl.style.display = "none"; //hide start button
+    introEl.style.display = "none";
+    quiz.style.display = "none";
+    scoreEl.style.display = "none";
+
+
+    console.log("list of high scores");
+    
 }
-saveBtn.addEventListener("click", retriveScores);
 
-//Retrive score
-function retriveScores() {
-    var retrieve = localStorage.getItem("user", "score")
-}
