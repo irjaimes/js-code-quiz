@@ -60,7 +60,7 @@ var questions = [
 var lastArrQuestion = questions.length - 1;
 var currentArrQuestion = 0;
 var score = 0;
-var fiveMinutes = 1 * 1; //*****CHANGE!!! 1 to 5 for 5 minutes  & 30 to 60
+var fiveMinutes = 60 * 5; //*****CHANGE!!! to test
 var Timer;
 
 // Display Current Question & Answer Choices
@@ -102,7 +102,7 @@ function stopCountDown() {
 }
 
 
-////////    QUIZ SCREEEN    ///////
+////////    QUIZ SCREEN    ///////
 
 // Quiz Start
 function startQuiz() {
@@ -131,7 +131,7 @@ function checkAnswer(answer) {
     } else {
         alert("Incorrect!");
         // decrease time by 30 seconds
-        //fiveMinutes -= 30;
+        fiveMinutes -= 30;
     }
     // check questions left and time
     if (currentArrQuestion < lastArrQuestion) {
@@ -145,7 +145,7 @@ function checkAnswer(answer) {
 }
 
 
-////////    SCORES SCREEEN    ///////
+////////    SCORES SCREEN    ///////
 
 //Create Score Container child elements
 var resultsHeader = document.createElement("h1");
