@@ -21,11 +21,13 @@ header {
     justify-content: space-evenly;
     align-content: space-between;
     align-items: center;
+    margin-top: 20px;
+    padding: 30px;
 }
-.high-scores {
+#high-scores {
     color: var(--darkPurple);
 }
-.high-scores:hover {
+#high-scores:hover {
     color : rgb(242, 21, 246);
     font-size: 1.1em;  
     font-weight: 500;
@@ -53,14 +55,17 @@ header {
 }
 #container{
     margin : 20px auto;
+    padding: 30px;
     background-color: white; 
 }
 #question{
-    margin : 25px auto 15px;
+    margin : 0 auto;
     width: 500px;
-    height : 125px;
+    
 }
 #question p{  
+    text-align: center;
+    align-content: center;
     padding : 15px;
     font-size: 1.25em;
 }
@@ -91,25 +96,28 @@ header {
     border-top: 1px solid black;
     margin: 20px auto;
     padding: 20px;
-    color: green;
+    color: rgba(104, 104, 104, 0.487);
     font-size: 25px;
     font-weight: bold;
     font-style: italic;
     text-transform: uppercase;
 
 }
-#scoreContainer{
+#scoreContainer{ 
+    width: 40%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin : 20px auto;
+    margin : 0px auto;
     padding: 30px;
     background-color: var(--transPurple);
     border-radius: 15px;
     box-shadow: 0px 5px 15px 0px;
 }
 #scoreContainer h1, #scoreContainer h3, #form p{
+    margin: 0;
+    padding: 5px;
     text-align: center;
 }
 form {
@@ -131,7 +139,6 @@ button {
     cursor: pointer;
     margin: 2px;
 }
-
 button:hover {
     background-color: var(--pink);
     color: white;
@@ -147,11 +154,11 @@ input {
     width: 20em;
     height: 5em;
     background-color: rgba(145, 144, 144, 0.398);
-    box-shadow: 0 0.1rem 1.4rem 0 rgba(115, 68, 255, 0.5);
 }
 input:focus{
     box-shadow: none;
-    background-color:#d7b1fc6b;
+    background-color: rgba(255, 255, 255, 0.611);
+    box-shadow: 0 0.1rem 1.4rem 0 rgba(115, 68, 255, 0.5);
 }
 input::placeholder {
     font-family: monaco, sans-serif;

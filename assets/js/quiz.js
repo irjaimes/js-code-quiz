@@ -128,7 +128,7 @@ startEl.addEventListener("click", startCountDown);
 //Check if Answers Correct or Incorrect
 function checkAnswer(selectedAnswer) {
     var clickedChoice = "right!";
-    if (selectedAnswer == questions[currentArrQuestion].correct) {
+    if (selectedAnswer === questions[currentArrQuestion].correct) {
         // increase score
         score++;
         //localStorage.setItem("recentScore", score); may delete after high scores func
@@ -155,7 +155,7 @@ function checkAnswer(selectedAnswer) {
     }
     else {
         // end the quiz and show score
-        clearInterval(timer);
+        //clearInterval(timer);
         showScore();
     }
 }
