@@ -10,7 +10,7 @@
 
 <body>
     <header>
-        <div class="high-scores">View High Scores</div> 
+        <div id="high-scores">View High Scores</div> 
 
         <div id="timer">
             <span id="time">05:00</span>
@@ -49,7 +49,10 @@
         </div>
 
         <!-- SCORE -->
-        <div id="scoreContainer" style="display: none"></div> <!-- hide score until time is up -->
+        <div id="scoreContainer" style="display: none"></div> <!-- hide score until time is up or test complete -->
+
+        <div id="high-scores"></div><!-- hide until view-scores clickOn event -->
+
     </div>
 
     <script type="text/Javascript" src="assets/js/quiz.js"></script>

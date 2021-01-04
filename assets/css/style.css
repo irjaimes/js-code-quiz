@@ -70,7 +70,7 @@ header {
     justify-content: center;
     flex-direction: column;
 }
-.choice{
+.choice{ 
     width : 300px;
     background-color: var(--medPurple);
     border-radius: 5px;
@@ -83,13 +83,28 @@ header {
     color: honeydew;
     font-weight: bold;
 }
+#right-wrong {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    border-top: 1px solid black;
+    margin: 20px auto;
+    padding: 20px;
+    color: green;
+    font-size: 25px;
+    font-weight: bold;
+    font-style: italic;
+    text-transform: uppercase;
+
+}
 #scoreContainer{
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     margin : 20px auto;
-    padding-top: 20px;
+    padding: 30px;
     background-color: var(--transPurple);
     border-radius: 15px;
     box-shadow: 0px 5px 15px 0px;
@@ -116,20 +131,36 @@ button {
     cursor: pointer;
     margin: 2px;
 }
+
 button:hover {
     background-color: var(--pink);
     color: white;
 }
 button:active{
-    border: none;
+    transform: none;
 }
 input {
     text-align: center;
     border: 0.5px solid;
     border-radius:5px ;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
     width: 20em;
     height: 5em;
+    background-color: rgba(145, 144, 144, 0.398);
+    box-shadow: 0 0.1rem 1.4rem 0 rgba(115, 68, 255, 0.5);
+}
+input:focus{
+    box-shadow: none;
+    background-color:#d7b1fc6b;
+}
+input::placeholder {
+    font-family: monaco, sans-serif;
+    padding-top: 2px;
+    font-size: 1.5em;
+    color: rgba(255, 255, 255, 0.611);
+}
+input[type=text]{
+    font-size: 14px;
 }
 #scoreContainer p{
     font-size: 1.5em;

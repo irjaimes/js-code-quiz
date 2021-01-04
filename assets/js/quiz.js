@@ -63,6 +63,7 @@ var score = 0;
 var fiveMinutes = 60 * 5; //*****CHANGE!!! to test
 var Timer;
 
+
 // Display Current Question & Answer Choices
 function renderQuestion() {
     var q = questions[currentArrQuestion]; //set variable to accesss the current question in array
@@ -106,43 +107,59 @@ function stopCountDown() {
 
 // Quiz Start
 function startQuiz() {
+    score = 0;
     startEl.style.display = "none"; //hide start button
     introEl.style.display = "none";
-    renderQuestion();
     quiz.style.display = "block";
+
+    renderQuestion();
 }
 
 // Start Countdown function at click event
 var start;
 function startCountDown() {
-    start = setTimeout(function (){
+    start = setTimeout(function () {
         display = document.querySelector('#time'),
-        setTimer(fiveMinutes, display);
+            setTimer(fiveMinutes, display);
     })
 };
 startEl.addEventListener("click", startCountDown);
 
 //Check if Answers Correct or Incorrect
-function checkAnswer(answer) {
-    if (answer === questions[currentArrQuestion].correct) {
-        alert("Correct!");
+function checkAnswer(selectedAnswer) {
+    var clickedChoice = "right!";
+    if (selectedAnswer == questions[currentArrQuestion].correct) {
         // increase score
         score++;
+        //localStorage.setItem("recentScore", score); may delete after high scores func
     } else {
-        alert("Incorrect!");
-        // decrease time by 30 seconds
-        fiveMinutes -= 30;
-    }
-    // check questions left and time
+        clickedChoice = "wrong!";
+        // ADD time decrease by 30 seconds below
+        fiveMinutes -= 30;   
+    } 
+    rightWrongEl.innerText = clickedChoice;
+   
+    // Check question left, to go to next question
     if (currentArrQuestion < lastArrQuestion) {
-        currentArrQuestion++;
-        renderQuestion();
-    } else {
-        // end the quiz and show the score
+        setTimeout(() => {
+            currentArrQuestion++;
+            renderQuestion();
+            rightWrongEl.innerText = "";
+        }, 1000);
+    } else if (lastArrQuestion) {
+        setTimeout(() => {
+            //got to score screen
+            showScore();
+            //ADD time stop function
+        }, 1000);
+    }
+    else {
+        // end the quiz and show score
         clearInterval(timer);
         showScore();
     }
 }
+
 
 
 ////////    SCORES SCREEN    ///////
@@ -167,38 +184,66 @@ function showScore() {
 }
 
 //CREATE Form and child elements 
-var form = document.createElement("form"); 
-form.setAttribute("id", "form");  
+var form = document.createElement("form");
+form.setAttribute("id", "form");
 // CREATE an <p> element for user instructions
-var userInstruct = document.createElement("p"); 
-userInstruct.innerText = ("Enter your initials: "); 
-userInstruct.setAttribute("id", "userInstruct"); 
+var userInstruct = document.createElement("p");
+userInstruct.innerText = ("Enter your initials: ");
+userInstruct.setAttribute("id", "userInstruct");
 // CREATE an input element for user initials
-var initials = document.createElement("input"); 
-initials.setAttribute("type", "text"); 
-initials.setAttribute("name", "initials"); 
+var initials = document.createElement("input");
+initials.setAttribute("type", "text");
+initials.setAttribute("name", "initials");
 initials.setAttribute("id", "userInitials")
-initials.setAttribute("placeholder", "Your Initials"); 
+initials.setAttribute("placeholder", "your initials");
 // CREATE a SAVE button 
-var saveBtn = document.createElement("button"); 
+var saveBtn = document.createElement("button");
 saveBtn.setAttribute("id", "saveScoreBtn")
 saveBtn.setAttribute("class", "btn")
-saveBtn.setAttribute("type", "submit"); 
+saveBtn.setAttribute("type", "submit");
 saveBtn.setAttribute("onsubmit", "saveHighScore(event)");
 saveBtn.setAttribute("value", "Save");
-saveBtn.textContent = "Save";  
+saveBtn.setAttribute("disabled", "true");
+saveBtn.textContent = "Save";
 // CREATE a Retake button 
-var retakeBtn = document.createElement("button"); 
+var retakeBtn = document.createElement("button");
 retakeBtn.setAttribute("id", "saveScoreBtn")
 retakeBtn.setAttribute("class", "btn")
-retakeBtn.setAttribute("type", "submit"); 
+retakeBtn.setAttribute("type", "submit");
 retakeBtn.setAttribute("onClick", "location.href='index.html'");
 retakeBtn.setAttribute("value", "Retake");
-retakeBtn.textContent = "Retake"; 
+retakeBtn.textContent = "Retake";
 // APPENDING child elements to parent elements 
-form.appendChild(userInstruct);   
-form.appendChild(initials);  
-form.appendChild(saveBtn); 
-form.appendChild(retakeBtn); 
-scoreEl.append(form);  
+form.appendChild(userInstruct);
+form.appendChild(initials);
+form.appendChild(saveBtn);
+form.appendChild(retakeBtn);
+scoreEl.append(form);
 
+
+// Disabling save button if no input in field
+var userName = document.getElementById("userInitials");
+var saveScoreBnt = document.getElementById("saveScoreBtn");
+//var recentScore =  localStorage.getItem("recentScore");
+//var viewScores = document.getElementById("view-scores");
+//viewScores.innerText =  recentScore;
+userName.addEventListener("keyup", () => {
+    saveScoreBnt.disabled = !userName.value
+});
+
+//Save score
+saveScore = e => { //saveHighScore(event)
+    e.preventDefaul();
+
+    var user = document.getElementsByName("initials").value;
+
+    //save to local storage
+    localStorage.setItem(user);
+
+}
+saveBtn.addEventListener("click", retriveScores);
+
+//Retrive score
+function retriveScores() {
+    var retrieve = localStorage.getItem("user", "score")
+}
