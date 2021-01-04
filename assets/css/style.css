@@ -104,7 +104,7 @@ header {
 
 }
 #scoreContainer{ 
-    width: 40%;
+    width: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -179,10 +179,11 @@ input[type=text]{
         flex: 1 100%;
     }
     #scoreContainer {
+        width: 80%;
         background: none;
         border: none;
         border-radius: 15px;
-        box-shadow: none;
+        
     }
     .btn, input {
         font-size: 1em;
