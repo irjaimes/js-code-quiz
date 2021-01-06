@@ -19,18 +19,13 @@ body{
 header {
     display: flex;
     justify-content: space-evenly;
-    align-content: space-between;
-    align-items: center;
     margin-top: 20px;
     padding: 30px;
 }
-#high-scores {
+#view-high-scores {
     color: var(--darkPurple);
 }
-ul {
-    list-style: none;
-}
-#high-scores:hover {
+#view-high-scores:hover {
     color : rgb(242, 21, 246);
     font-size: 1.1em;  
     font-weight: 500;
@@ -41,7 +36,7 @@ ul {
     margin-top: 2em;
     text-align: center;
 }
-#start{
+#start, a{
     width: 70%;
     text-align: center;
     font-size: 1.5em;
@@ -52,7 +47,7 @@ ul {
     cursor: pointer;
     color : var(--darkPurple);
 }
-#start:hover{
+#start:hover, a:hover{
     border: 3px solid rgb(242, 21, 246);
     color : rgb(242, 21, 246);
 }
@@ -106,7 +101,7 @@ ul {
     text-transform: uppercase;
 
 }
-#scoreContainer{ 
+#scoreContainer, #high-scores{ 
     width: 60%;
     display: flex;
     align-items: center;
@@ -176,6 +171,8 @@ input[type=text]{
     font-size: 1.5em;
     font-weight: bold;
 }
+
+
 
 @media screen and (max-width: 980px) { 
     main {

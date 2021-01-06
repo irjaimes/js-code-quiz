@@ -1,5 +1,6 @@
 //DOM element variables
-let highScoresEl = document.getElementById("high-scores");
+let viewHighScoresEl = document.getElementById("view-high-scores");
+let timerEl = document.getElementById("time");
 let introEl = document.getElementById("quick-intro");
 let startEl = document.getElementById("start");
 let quiz = document.getElementById("quiz");
@@ -8,7 +9,6 @@ let choiceAel = document.getElementById("A");
 let choiceBel = document.getElementById("B");
 let choiceCel = document.getElementById("C");
 let choiceDel = document.getElementById("D")
-let counterEl = document.getElementById("counter");
 let rightWrongEl = document.getElementById("right-wrong");
 let scoreEl = document.getElementById("scoreContainer");
 
@@ -21,7 +21,7 @@ var questions = [
         choiceB: "B. CSS",
         choiceC: "C. Neither A or B",
         choiceD: "D. Both A & B",
-        correct: "D" //exact text here
+        correct: "D"
     },
     {
         question: "Which of the following are variable keywords in Javascript?",
@@ -61,9 +61,8 @@ var questions = [
 var lastArrQuestion = questions.length - 1;
 var currentArrQuestion = 0;
 var score = 0;
-var fiveMinutes = 60 * 5; 
+var fiveMinutes = 60 * 5;
 var Timer;
-
 
 // Display Current Question & Answer Choices
 function renderQuestion() {
@@ -77,7 +76,6 @@ function renderQuestion() {
     choiceDel.innerHTML = q.choiceD;
 }
 startEl.addEventListener("click", startQuiz);
-
 
 ////////    TIMER    ///////
 
@@ -103,7 +101,6 @@ function stopCountDown() {
     showScore;
 }
 
-
 ////////    QUIZ SCREEN    ///////
 
 // Quiz Start
@@ -111,6 +108,7 @@ function startQuiz() {
     score = 0;
     startEl.style.display = "none"; //hide start button
     introEl.style.display = "none";
+    topScoresListEl.style.display = "none";
     quiz.style.display = "block";
 
     renderQuestion();
@@ -132,14 +130,14 @@ function checkAnswer(selectedAnswer) {
     if (selectedAnswer === questions[currentArrQuestion].correct) {
         // increase score
         score++;
-        localStorage.setItem("recentScore", score); 
+
     } else {
         clickedChoice = "wrong!";
         // ADD time decrease by 30 seconds below
-        fiveMinutes -= 30;   
-    } 
+        fiveMinutes -= 30;
+    }
     rightWrongEl.innerText = clickedChoice;
-   
+
     // Check question left, to go to next question
     if (currentArrQuestion < lastArrQuestion) {
         setTimeout(() => {
@@ -161,11 +159,9 @@ function checkAnswer(selectedAnswer) {
     }
 }
 
-
 ////////    SCORES SCREEN    ///////
 
-
-//Create Score Container child elements
+//CREATE Score Container child elements
 var resultsHeader = document.createElement("h1");
 resultsHeader.setAttribute("id", "results-title");
 resultsHeader.innerText = "Your Results:";
@@ -174,106 +170,116 @@ yourScore.setAttribute("id", "your-score");
 resultsHeader.appendChild(yourScore);
 scoreEl.appendChild(resultsHeader);
 
-//Show score 
-
-
-function showScore() {
-    quiz.style.display = "none";
-    scoreEl.style.display = "block";
-    //calculate score
-    var scorePerCent = Math.round(100 * score / questions.length);
-    //display score percentage
-    yourScore.innerText = scorePerCent + "/100";
-}
-
 //CREATE Form and child elements 
-var formEl = document.createElement("formEl");
+var formEl = document.createElement("form");
 formEl.setAttribute("id", "formEl");
 // CREATE an <p> element for user instructions
 var userInstructEl = document.createElement("p");
-userInstructEl.innerText = ("Enter your initialsEl: ");
+userInstructEl.innerText = ("Enter your initials: ");
 userInstructEl.setAttribute("id", "userInstructEl");
 // CREATE an input element for user initials
 var initialsEl = document.createElement("input");
 initialsEl.setAttribute("type", "text");
 initialsEl.setAttribute("name", "initialsEl");
 initialsEl.setAttribute("id", "userInitials")
-initialsEl.setAttribute("placeholder", "your initialsEl");
+initialsEl.setAttribute("placeholder", "your initials");
 // CREATE a SAVE button 
 var saveBtnEl = document.createElement("button");
 saveBtnEl.setAttribute("id", "saveScoreBtn")
 saveBtnEl.setAttribute("class", "btn")
 saveBtnEl.setAttribute("type", "submit");
 saveBtnEl.setAttribute("onclick", "saveHighScore(event)");
-saveBtnEl.setAttribute("value", "Save");
 saveBtnEl.setAttribute("disabled", "true");
+saveBtnEl.setAttribute("value", "Save");
 saveBtnEl.textContent = "Save";
 // CREATE a Retake button 
 var retakeBtnEl = document.createElement("button");
 retakeBtnEl.setAttribute("id", "retakeBtn")
 retakeBtnEl.setAttribute("class", "btn")
 retakeBtnEl.setAttribute("type", "submit");
-retakeBtnEl.setAttribute("onClick", "location.href='index.html'");
+retakeBtnEl.setAttribute("onclick", "location.href='index.html'");
 retakeBtnEl.setAttribute("value", "Retake");
 retakeBtnEl.textContent = "Retake";
-// APPENDING child elements to parent elements 
+// APPENDING form child elements to parent elements 
 formEl.appendChild(userInstructEl);
 formEl.appendChild(initialsEl);
 formEl.appendChild(saveBtnEl);
 formEl.appendChild(retakeBtnEl);
 scoreEl.append(formEl);
 
+//Show score function
+function showScore() {
+    quiz.style.display = "none";
+    scoreEl.style.display = "block";
+    //calculate score and assign to new variable
+    var scorePerCent = Math.round(100 * score / questions.length);
+    //assign scorePerCent to score variable to local storage
+    score = scorePerCent
+    localStorage.setItem("recentScore", score);
+    //display score percentage
+    yourScore.innerText = scorePerCent;
+}
+
 // Save Score Variables
 var saveScoreBtn = saveBtnEl;
 var userName = initialsEl;
-var finalScore = yourScore.innerText;////
 var recentScore = localStorage.getItem("recentScore");
-finalScore.innerText = recentScore;
+var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+var topScores = 5;
 
-//need to conver string to interger and do math to ger score
-function finalScoreConvert() {
-
-}
 
 //function to Disable Save Button until field is filled
 userName.addEventListener("keyup", () => {
     saveScoreBtn.disabled = !userName.value
 });
 
-//Save high scores onclick: saveHighScore(event)
-saveHighScore = e => {
-    console.log("clicked save button")
-    e.preventDefautl();
+//Save high scores to array
+function saveHighScore(event) {
+    //stop save button from refreshing page
+    event.preventDefault();
 
-    var savedResults = {
-        user: initialsEl.value,
-        score: userScore 
+    var scoreObj = {
+        name: userName.value,
+        score: recentScore
     };
+    highScores.push(scoreObj);
+    //sort saved scores to keep top 5 
+    highScores.sort((a, b) => b.score - a.score);
+    highScores.splice(5);
 
-console.log(savedResults);
+    localStorage.setItem("highScores", JSON.stringify(highScores));
 
 };
 
+////////    VIEW HIGH SCORES LIST  SCREEN    ///////
 
+viewHighScoresEl.setAttribute("onClick", "retriveScores()");
+//DOM variables
+var topScoresListEl = document.getElementById("high-scores");
+var listEl = document.createElement("ol");
+listEl.setAttribute("id", "high-score-list");
+var goHomeBtnEl = document.createElement("a");
+goHomeBtnEl.setAttribute("id", "btn");
+goHomeBtnEl.setAttribute("href", "index.html");
+goHomeBtnEl.innerText = "Go Home";
 
-//Retrive Scores List DOM variables
-highScoresEl.setAttribute("onClick", "retriveScores(event)");
-var scoreListEl = document.createElement("ul");
-scoreListEl.setAttribute("id", "score-list");
-var listItemEl = document.createElement("li");
-listItemEl.setAttribute("id", "list-item");
-scoreListEl.appendChild(listItemEl);
-highScoresEl.appendChild(scoreListEl);
+//Append child elements to parent elements
+topScoresListEl.appendChild(listEl);
+topScoresListEl.appendChild(goHomeBtnEl);
 
-
-retriveScores = e =>{
+function retriveScores() {
     startEl.style.display = "none"; //hide start button
     introEl.style.display = "none";
-    quiz.style.display = "none";
     scoreEl.style.display = "none";
+    timerEl.style.display = "none";
+    topScoresListEl.style.display = "block" ; /////////FIX THIS!////////
 
+    var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 
-    console.log("list of high scores");
-    
-}
+    //set high scores as list items in ul element
+    listEl.innerHTML = highScores.map(score => {
+        return `<li class="list-item"> ${score.name} - ${score.score}</li>`;
+    })
+        .join("");
+};
 
