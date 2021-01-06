@@ -47,6 +47,7 @@ header {
     cursor: pointer;
     color : var(--darkPurple);
 }
+
 #start:hover, a:hover{
     border: 3px solid rgb(242, 21, 246);
     color : rgb(242, 21, 246);
@@ -171,9 +172,9 @@ input[type=text]{
     font-size: 1.5em;
     font-weight: bold;
 }
-
-
-
+#go-home-btn {
+   text-decoration: none;
+}
 @media screen and (max-width: 980px) { 
     main {
         flex: 1 100%;

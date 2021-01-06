@@ -77,7 +77,7 @@ function renderQuestion() {
 }
 startEl.addEventListener("click", startQuiz);
 
-////////    TIMER    ///////
+//////// TIMER   
 
 //  Set Timer function to set counter to 00:00 format
 function setTimer(duration, display) {
@@ -109,7 +109,7 @@ function startQuiz() {
     startEl.style.display = "none"; //hide start button
     introEl.style.display = "none";
     topScoresListEl.style.display = "none";
-    quiz.style.display = "block";
+    quiz.style.display = "flex";
 
     renderQuestion();
 }
@@ -149,17 +149,17 @@ function checkAnswer(selectedAnswer) {
         setTimeout(() => {
             //got to score screen
             showScore();
-            //ADD time stop function 
+            ///////////   ADD time stop function  ////////////
         }, 1000);
     }
     else {
         // end the quiz and show score
-        //clearInterval(timer);
+        ////////////////   clearInterval(timer);  ///////////////
         showScore();
     }
 }
 
-////////    SCORES SCREEN    ///////
+/////// SCORES SCREEN   
 
 //CREATE Score Container child elements
 var resultsHeader = document.createElement("h1");
@@ -222,11 +222,12 @@ function showScore() {
 
 // Save Score Variables
 var saveScoreBtn = saveBtnEl;
-var userName = initialsEl;
-var recentScore = localStorage.getItem("recentScore");
-var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
-var topScores = 5;
 
+var userName = initialsEl;
+var savedScore = localStorage.getItem("recentScore");
+var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+console.log(highScores);
+var topScores = 5;
 
 //function to Disable Save Button until field is filled
 userName.addEventListener("keyup", () => {
@@ -240,45 +241,49 @@ function saveHighScore(event) {
 
     var scoreObj = {
         name: userName.value,
-        score: recentScore
+        score: savedScore
     };
+    //push score object to highScores array
     highScores.push(scoreObj);
     //sort saved scores to keep top 5 
     highScores.sort((a, b) => b.score - a.score);
     highScores.splice(5);
-
+    //set new high score array obj to local storage
     localStorage.setItem("highScores", JSON.stringify(highScores));
-
 };
 
-////////    VIEW HIGH SCORES LIST  SCREEN    ///////
+//////// VIEW HIGH SCORES LIST  SCREEN  
 
 viewHighScoresEl.setAttribute("onClick", "retriveScores()");
+
+///// BUG BUG BUG they're being pulled 20 points off BUG BUG BUG///////////
+
 //DOM variables
 var topScoresListEl = document.getElementById("high-scores");
 var listEl = document.createElement("ol");
 listEl.setAttribute("id", "high-score-list");
 var goHomeBtnEl = document.createElement("a");
-goHomeBtnEl.setAttribute("id", "btn");
+goHomeBtnEl.setAttribute("id", "go-home-btn");
 goHomeBtnEl.setAttribute("href", "index.html");
 goHomeBtnEl.innerText = "Go Home";
-
 //Append child elements to parent elements
 topScoresListEl.appendChild(listEl);
 topScoresListEl.appendChild(goHomeBtnEl);
 
+//RETRIEVE scores function
+var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+var scorelist = listEl
+
 function retriveScores() {
-    startEl.style.display = "none"; //hide start button
+    startEl.style.display = "none"; 
     introEl.style.display = "none";
     scoreEl.style.display = "none";
     timerEl.style.display = "none";
-    topScoresListEl.style.display = "block" ; /////////FIX THIS!////////
-
-    var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+    topScoresListEl.style.display = "flex";
 
     //set high scores as list items in ul element
-    listEl.innerHTML = highScores.map(score => {
-        return `<li class="list-item"> ${score.name} - ${score.score}</li>`;
+    scorelist.innerHTML = highScores.map(scoreObj => {
+        return `<li class="list-item"> ${scoreObj.name} - ${scoreObj.score}</li>`;
     })
         .join("");
 };
